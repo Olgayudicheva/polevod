@@ -12,6 +12,8 @@ repositories {
 dependencies {
     testImplementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.0.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
+    testImplementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     testImplementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.0.3'
 }
