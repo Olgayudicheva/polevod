@@ -41,10 +41,13 @@ public class CheckProduce {
     }
 
     @Test //простой тест авторизации
-    void test() throws InterruptedException {
+    void testFirst() throws InterruptedException {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-fullscreen");
-       // options.addArguments();
+        //options.addArguments("--headless");
+        //options.addArguments("--start-maximised");
+        //options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36");
+        // options.addArguments();
         WebDriver driver = new ChromeDriver(options);
         //driver.manage().window().maximize();
         try {
