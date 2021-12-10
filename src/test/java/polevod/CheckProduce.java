@@ -38,7 +38,7 @@ public class CheckProduce {
 
     By threatCard = new By.ByXPath("//div[@class=\"ExpandedRowItem_Wrapper_25SVV \"]");
 
-    By byCards = new By.ByXPath(".//div[contains(@class,\"ExpandedRowItem_ProtectionWrapper_210X_\")]/div");
+    By byCards = new By.ByXPath(".//div[contains(@class,\"ProtectionWrapper\")]/div");
 
     By byLoadNext = new By.ByXPath(".//span[contains(text(), \"Загрузить еще\")]/..");
 
@@ -61,7 +61,7 @@ public class CheckProduce {
         //driver.manage().window().maximize();
         try {
             driver.get("https://polevod.direct.farm/");
-            WebDriverWait wait = new WebDriverWait(driver, 10);
+            WebDriverWait wait = new WebDriverWait(driver, 20);
             Actions actions = new Actions(driver);
             wait.until((ExpectedConditions.visibilityOfElementLocated(phoneXpath)));
             WebElement phone = driver.findElement(phoneXpath);
@@ -94,13 +94,13 @@ public class CheckProduce {
             LOGGER.info("Кол угроз: "+threadCardList.size());
             for (int threatCardIndex = 0; threatCardIndex < threadCardList.size(); threatCardIndex++) {
                 WebElement threadCard = threadCardList.get(threatCardIndex);
-                if (threadCard.findElements(new By.ByXPath(".//div[contains(@class,\"ExpandedRowItem_ProtectionWrapper_210X_\")]/div[@class=\"ExpandedRowItem_ProtectionsPlaceholder_nUvki\"]")).size()>0) {
+                if (threadCard.findElements(new By.ByXPath(".//div[contains(@class,\"ProtectionWrapper\")]/div[@class=\"ExpandedRowItem_ProtectionsPlaceholder_nUvki\"]")).size()>0) {
                     continue;
                 }
 
                 boolean end = false;
                 while (end == false) {
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(new By.ByXPath(".//div[contains(@class,\"ExpandedRowItem_ProtectionWrapper_210X_\")]")));
+                    wait.until(ExpectedConditions.visibilityOfElementLocated(new By.ByXPath(".//div[contains(@class,\"ProtectionWrapper\")]")));
                     List<WebElement> load = threadCard.findElements(byLoadNext);
                     if (load.isEmpty()) {
                         end = true;
