@@ -56,6 +56,7 @@ public class CheckProduce {
         //options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36");
         // options.addArguments();
         WebDriver driver = new ChromeDriver(options);
+        //WebDriver driver = WebDriverManager.chromedriver().browserInDocker().create();
         HashSet<String> errorDeveloper = new HashSet<>();
         HashMap<String, ErrorUtl> errorNotFound = new HashMap<>();
         //driver.manage().window().maximize();
@@ -119,6 +120,9 @@ public class CheckProduce {
 
                     WebElement nameElement = element.findElement(new By.ByXPath(".//div[@class=\"ProtectionItem_ProtectionItemName_1o_qj\"]/a"));
                     String name = nameElement.getText();
+                    if (errorNotFound.containsKey(name)) {
+                        continue;
+                    }
                     String href = nameElement.getAttribute("href");
                     String developer = element.findElement(new By.ByXPath(".//div[@class=\"ProtectionItem_ProtectionItemRegistrant_RK9gY\"]")).getText();
                     //LOGGER.info(developer);
