@@ -36,7 +36,7 @@ public class CheckProduce {
     By bySelectTestovoeKhoz = new By.ByXPath("(//*[@class=\"ant-menu-item-group\"]//*[contains(.,'Тестовое хозяйство')])[last()]/../..");
     By byClickPlus = new By.ByXPath("//*[@id=\"app\"]/section/section/main/section/div[3]/div/div/div/div/div/table/tbody/tr[1]/td[1]/span");
 
-    By threatCard = new By.ByXPath("//div[@class=\"ExpandedRowItem_Wrapper_25SVV \"]");
+    By threatCard = new By.ByXPath("//div[contains(@class,\"ExpandedRowItem_Wrapper\")]");
 
     By byCards = new By.ByXPath(".//div[contains(@class,\"ProtectionWrapper\")]/div");
 
