@@ -47,23 +47,19 @@ public class CheckProduce {
     }
 
     @Test
-        //простой тест авторизации
     void testFirst() throws InterruptedException {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-fullscreen");
-        //options.addArguments("--headless");
-        //options.addArguments("--start-maximised");
-        //options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36");
-        // options.addArguments();
+        //options.addArguments("--start-fullscreen");
         WebDriver driver = new ChromeDriver(options);
-        //WebDriver driver = WebDriverManager.chromedriver().browserInDocker().create();
         HashSet<String> errorDeveloper = new HashSet<>();
         HashMap<String, ErrorUtl> errorNotFound = new HashMap<>();
-        //driver.manage().window().maximize();
+        driver.manage().window().maximize();
         try {
+            //Переходим на страницу полевода
             driver.get("https://polevod.direct.farm/");
-            WebDriverWait wait = new WebDriverWait(driver, 20);
+            WebDriverWait wait = new WebDriverWait(driver, 40);
             Actions actions = new Actions(driver);
+            //Ожидаем появления phoneXpath (xpath можно найти через chrome devtools)
             wait.until((ExpectedConditions.visibilityOfElementLocated(phoneXpath)));
             WebElement phone = driver.findElement(phoneXpath);
             WebElement pass = driver.findElement(new By.ByXPath("//input[@type=\"password\"]"));
@@ -87,18 +83,20 @@ public class CheckProduce {
             wait.until(ExpectedConditions.elementToBeClickable(byClickPlus)).click();
             //
 
-
+            //Ожидаем появления карточек угроз
             wait.until(ExpectedConditions.visibilityOfElementLocated(threatCard));
             List<WebElement> threadCardList = driver.findElements(threatCard);
 
 
             LOGGER.info("Кол угроз: "+threadCardList.size());
+            //Перебор карточек угроз
             for (int threatCardIndex = 0; threatCardIndex < threadCardList.size(); threatCardIndex++) {
                 WebElement threadCard = threadCardList.get(threatCardIndex);
                 if (threadCard.findElements(new By.ByXPath(".//div[contains(@class,\"ProtectionWrapper\")]/div[@class=\"ExpandedRowItem_ProtectionsPlaceholder_nUvki\"]")).size()>0) {
                     continue;
                 }
 
+                //Пагинация препаратов
                 boolean end = false;
                 while (end == false) {
                     wait.until(ExpectedConditions.visibilityOfElementLocated(new By.ByXPath(".//div[contains(@class,\"ProtectionWrapper\")]")));
@@ -109,12 +107,12 @@ public class CheckProduce {
                     }
                     wait.until(ExpectedConditions.elementToBeClickable(load.get(0))).click();
                 }
+                //---
 
                 List<WebElement> cardsList = threadCard.findElements(byCards);
                 LOGGER.info(cardsList.size());
 
-
-
+                //Перебор препаратов
                 for (int i = 0; i < cardsList.size(); i++) {
                     WebElement element = cardsList.get(i);
 
@@ -170,6 +168,7 @@ public class CheckProduce {
 
     }
 
+    //Работа с api DF
     String getUrlByName(String name) throws IOException {
         Gson gson = new Gson().newBuilder().create();
         OkHttpClient okHttpClient = new OkHttpClient();
