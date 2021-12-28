@@ -40,7 +40,7 @@ public class CheckProduce {
 
     By byCards = new By.ByXPath(".//div[contains(@class,\"ProtectionWrapper\")]/div");
 
-    By byLoadNext = new By.ByXPath(".//span[contains(text(), \"Загрузить еще\")]/..");
+    By byLoadNext = new By.ByXPath(".//button[contains(@class,\"LoadMoreButton\")]");
 
     By getXpathByText(String text) {
         return new By.ByXPath("(//*[contains(.,'" + text + "')])[last()]");
@@ -91,8 +91,11 @@ public class CheckProduce {
             LOGGER.info("Кол угроз: "+threadCardList.size());
             //Перебор карточек угроз
             for (int threatCardIndex = 0; threatCardIndex < threadCardList.size(); threatCardIndex++) {
+                LOGGER.info("card number: "+threatCardIndex);
                 WebElement threadCard = threadCardList.get(threatCardIndex);
-                if (threadCard.findElements(new By.ByXPath(".//div[contains(@class,\"ProtectionWrapper\")]/div[@class=\"ExpandedRowItem_ProtectionsPlaceholder_nUvki\"]")).size()>0) {
+                String cardName = threadCard.findElement(new By.ByXPath("//div[contains(@class,\"Threat_ThreatName\")]/a")).getText();
+                LOGGER.info("card name: "+cardName);
+                if (threadCard.findElements(new By.ByXPath(".//div[contains(@class,\"ProtectionWrapper\")]/div[contains(@class, \"Protections_ProtectionsPlaceholder\")]")).size()>0) {
                     continue;
                 }
 
@@ -114,24 +117,29 @@ public class CheckProduce {
 
                 //Перебор препаратов
                 for (int i = 0; i < cardsList.size(); i++) {
+                    LOGGER.info("element number: "+i);
                     WebElement element = cardsList.get(i);
 
-                    WebElement nameElement = element.findElement(new By.ByXPath(".//div[@class=\"ProtectionItem_ProtectionItemName_1o_qj\"]/a"));
+                    WebElement nameElement = element.findElement(new By.ByXPath(".//div[contains(@class,\"ProtectionItem_ProtectionItemName\")]/a"));
                     String name = nameElement.getText();
+                    LOGGER.info(name);
                     if (errorNotFound.containsKey(name)) {
                         continue;
                     }
                     String href = nameElement.getAttribute("href");
-                    String developer = element.findElement(new By.ByXPath(".//div[@class=\"ProtectionItem_ProtectionItemRegistrant_RK9gY\"]")).getText();
+                    String developer = element.findElement(new By.ByXPath(".//div[contains(@class,\"ProtectionItem_ProtectionItemRegistrant\")]")).getText();
                     //LOGGER.info(developer);
                     if (developer.isBlank()) {
                         errorDeveloper.add(name);
                     }
 
-                    By byDetails = new By.ByXPath(".//div[@class=\"ProtectionItem_ProtectionItemName_1o_qj\"]/a");
+                    WebElement details = nameElement;
+
+                    By byDetails = new By.ByXPath(".//a[contains(@class,\"ProtectionItem_LearnMore\")]");
                     List<WebElement> detailsList = element.findElements(byDetails);
-                    if (detailsList.isEmpty()) continue;
-                    WebElement details = detailsList.get(0);
+                    if (detailsList.isEmpty()==false) {
+                        details = detailsList.get(0);
+                    }
                     actions.moveToElement(details).perform();
 
                     wait.until(ExpectedConditions.visibilityOf(details));
