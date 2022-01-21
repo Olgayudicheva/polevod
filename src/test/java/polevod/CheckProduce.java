@@ -14,6 +14,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import polevod.page_object.AuthPage;
 
 import java.io.IOException;
 import java.sql.Array;
@@ -31,9 +32,11 @@ public class CheckProduce {
     }
 
     By.ByXPath phoneXpath = new By.ByXPath("//input[@type=\"text\"]");
-    By byArhive = new By.ByXPath("(//*[contains(.,\"Угрозы по культурам\")])[last()]/../../..");
+    //By byArhive = new By.ByXPath("(//*[contains(.,\"Угрозы по культурам\")])[last()]/../../..");
+    By byArhive = Global.findLeftMenuItemByText("Угрозы по культурам");
     By bySelectKhoz = new By.ByXPath("//*[@id=\"app\"]/section/aside/div/ul/li[1]/div");
     By bySelectTestovoeKhoz = new By.ByXPath("(//*[@class=\"ant-menu-item-group\"]//*[contains(.,'Тестовое хозяйство')])[last()]/../..");
+
     By byClickPlus = new By.ByXPath("//*[@id=\"app\"]/section/section/main/section/div[3]/div/div/div/div/div/table/tbody/tr[1]/td[1]/span");
 
     By threatCard = new By.ByXPath("//div[contains(@class,\"ExpandedRowItem_Wrapper\")]");
@@ -59,15 +62,9 @@ public class CheckProduce {
             driver.get("https://polevod.direct.farm/");
             WebDriverWait wait = new WebDriverWait(driver, 40);
             Actions actions = new Actions(driver);
-            //Ожидаем появления phoneXpath (xpath можно найти через chrome devtools)
-            wait.until((ExpectedConditions.visibilityOfElementLocated(phoneXpath)));
-            WebElement phone = driver.findElement(phoneXpath);
-            WebElement pass = driver.findElement(new By.ByXPath("//input[@type=\"password\"]"));
-            WebElement loginbutton = driver.findElement((new By.ByXPath("//button[@type=\"submit\"]")));
-            phone.click();
-            phone.sendKeys("9612884689");
-            pass.sendKeys("passpass1");
-            loginbutton.click();
+
+            AuthPage authPage = new AuthPage(driver);
+            authPage.auth("9612884689", "passpass1");
             //Поиске и клик по выборку хозяйства
             wait.until(ExpectedConditions.presenceOfElementLocated(bySelectKhoz));
             wait.until(ExpectedConditions.elementToBeClickable(bySelectKhoz)).click();

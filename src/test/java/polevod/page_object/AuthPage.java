@@ -15,6 +15,8 @@ public class AuthPage {
     By byPhoneInput = new By.ByXPath("//input[@type=\"text\"]");
     By byPasswordInput = new By.ByXPath("//input[@type=\"password\"]");
     By bySingInButton = new By.ByXPath("//button[@type=\"submit\"]");
+    By byHZ = new By.ByXPath("//*[contains(@class, 'AppLayout_Veil_1z-ge')]");
+
     private final WebDriver driver;
     public AuthPage(WebDriver driver) {
         this.driver = driver;
@@ -24,6 +26,10 @@ public class AuthPage {
     public void auth (String phone, String password){
         LOGGER.info("---Авторизация---");
         driver.get("https://polevod.direct.farm");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(byPhoneInput));
+        if (!driver.findElements(byHZ).isEmpty()) {
+            driver.findElement(byHZ).click();
+        }
         wait.until(ExpectedConditions.presenceOfElementLocated(byPhoneInput));
         WebElement phoneElement = driver.findElement((byPhoneInput));
         phoneElement.click();
