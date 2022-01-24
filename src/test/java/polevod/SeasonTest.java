@@ -31,7 +31,7 @@ public class SeasonTest {
     @AfterEach
     void after() throws InterruptedException {
         if (driver!=null) {
-            Thread.sleep(30000);
+            Thread.sleep(5000);
             driver.quit();
         }
     }
@@ -59,6 +59,7 @@ public class SeasonTest {
                 LOGGER.info(field.yearList);
             }
         });
+        fieldList.get(0).yearList.get(0).addSeason("Рис","01.01.2019","20.01.2019","");
         //получаем и выводим года массивом чисел
         LOGGER.info(seasons.getYearsSeasons());
     }

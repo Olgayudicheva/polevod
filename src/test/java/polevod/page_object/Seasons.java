@@ -2,14 +2,13 @@ package polevod.page_object;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import polevod.Global;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -88,6 +87,37 @@ public class Seasons {
                     }
                 }
                 return count;
+            }
+
+            public void addSeason(String cultural, String startDate, String endDate, String result) {
+                //Кликаем по кнопке "добавить сезон"
+                webElement.findElement(new By.ByXPath(".//span[contains(@role,\"button\")]")).click();
+                //Ищем и ждем пока появится диалоговое окно
+                By modalXpath = new By.ByXPath("//*[contains(text(),'Создание нового сезона')]/../..");
+                wait.until(ExpectedConditions.presenceOfElementLocated(modalXpath));
+                WebElement modal = driver.findElement(modalXpath);
+                //Нажимаем на выбор культуры
+                modal.findElement(new By.ByXPath(".//label[contains(text(), \"Культура\")]/../../div[2]//div[contains(@class, 'select')]")).click();//.sendKeys(cultural);
+                //Вводим культуру
+                By inputCulturalXpath = new By.ByXPath("//*[contains(text(),'Создание нового сезона')]/../..//label[contains(text(), \"Культура\")]/../..//input");
+                wait.until(ExpectedConditions.presenceOfElementLocated(inputCulturalXpath));
+                driver.findElement(inputCulturalXpath).sendKeys(cultural);
+                driver.findElement(inputCulturalXpath).sendKeys(Keys.RETURN);
+                //Вводим дату сева (startDate)
+                By inputStartDateXpath = new By.ByXPath("//input[@placeholder=\"Выберите дату сева\"]");
+                wait.until(ExpectedConditions.presenceOfElementLocated(inputStartDateXpath));
+                driver.findElement(inputStartDateXpath).sendKeys(startDate);
+                // Вводим дату уборки (endDate)
+                By inputendDateXpath = new By.ByXPath("//input[@placeholder=\"Выберите дату факт. уборки\"]");
+                wait.until(ExpectedConditions.presenceOfElementLocated(inputendDateXpath));
+                driver.findElement(inputendDateXpath).sendKeys(endDate);
+
+                //Нажимаем сохранить
+                By buttonSaveNewSeason = new By.ByXPath("//button[@class=\"ant-btn ant-btn-primary ant-btn-lg\"]");
+                wait.until(ExpectedConditions.presenceOfElementLocated(buttonSaveNewSeason));
+                driver.findElement(buttonSaveNewSeason).click();
+
+
             }
 
             @Override
