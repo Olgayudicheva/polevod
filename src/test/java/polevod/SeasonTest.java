@@ -43,7 +43,7 @@ public class SeasonTest {
         driver = new ChromeDriver(options);
 
         driver.manage().window().maximize();
-
+        //авторизация
         AuthPage authPage = new AuthPage(driver);
         authPage.auth("9612884689", "passpass1");
 
