@@ -62,7 +62,7 @@ public class CheckProduce {
             driver.get("https://polevod.direct.farm/");
             WebDriverWait wait = new WebDriverWait(driver, 40);
             Actions actions = new Actions(driver);
-
+//авторизация
             AuthPage authPage = new AuthPage(driver);
             authPage.auth("9612884689", "passpass1");
             //Поиске и клик по выборку хозяйства
@@ -173,7 +173,7 @@ public class CheckProduce {
 
     }
 
-    //Работа с api DF
+    //Работа с api DF. 
     String getUrlByName(String name) throws IOException {
         Gson gson = new Gson().newBuilder().create();
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -198,7 +198,7 @@ public class CheckProduce {
         int id = promotion.get("articleId").getAsInt();
         String rootName = promotion.get("root").getAsString();
         String group = promotion.get("group").getAsString();
-
+//формирование правильного урла для перехода в карточку товара
         String url = "https://direct.farm/knowledge/"+rootName+"/"+group+"/"+id;
         LOGGER.info(url);
         return url;
