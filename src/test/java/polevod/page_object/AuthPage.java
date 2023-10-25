@@ -12,9 +12,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class AuthPage {
     final Logger LOGGER = LogManager.getLogger(AuthPage.class);
     final WebDriverWait wait;
+    //поиск элемента input, у которого type="text"
     By byPhoneInput = new By.ByXPath("//input[@type=\"text\"]");
+     //поиск элемента input, у которого type="password"
     By byPasswordInput = new By.ByXPath("//input[@type=\"password\"]");
+     //поиск элемента button, у которого type="submit"
     By bySingInButton = new By.ByXPath("//button[@type=\"submit\"]");
+     //поиск любого элемента, у которого в атрибуте class содержится "AppLayout_Veil_1z-ge"
     By byHZ = new By.ByXPath("//*[contains(@class, 'AppLayout_Veil_1z-ge')]");
 
     private final WebDriver driver;
